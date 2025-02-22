@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Vilans </title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.12.16/dist/framer-motion.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #000;
+            color: white;
+        }
+        .welcome-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+        .welcome-gif {
+            max-width: 100%;
+            max-height: 100vh;
+        }
+        .content {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            min-height: 100vh;
+        }
+        .content.show {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease-in;
+        }
+        .welcome-gif.hide {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+        .reboot-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .reboot-screen.show {
+            display: block;
+        }
+        .typing-text {
+            white-space: pre-wrap;
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #0f0;
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+        .login-container {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 255, 0, 0.1);
+        }
+        .login-container.show {
+            display: block;
+            animation: fadeIn 1s ease-in;
+        }
+        .login-button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #00ff00, #008000);
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .login-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="welcome-container" id="welcomeGif">
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2p6b3pxcGVvbTgydGJwMzE2ZXpqNmdjejJ2Z2RvM3M2YWNxN24wMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/29b9x2ulWMRWi6KugA/giphy.gif" 
+             alt="Welcome Animation" 
+             class="welcome-gif">
+    </div>
+
+    <div class="reboot-screen" id="rebootScreen">
+        <div class="typing-text" id="typingText"></div>
+        <span class="cursor"></span>
+    </div>
+
+    <div class="content" id="mainContent">
+        <div class="login-container" id="loginContainer">
+            <h1>Welcome to Villan Rullex </h1>
+            <p>Please select your login type to begin</p>
+            <button class="login-button" onclick="userLogin()">User Login</button>
+            <button class="login-button" onclick="adminLogin()">Admin Login</button>
+        </div>
+    </div>
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.3;
+        bgMusic.play().catch(e => console.log('Auto-play prevented:', e));
+
+        const rebootText = `
+[SYSTEM INITIALIZING...]
+Loading Villan Here Dragon tery ma ke shoot AI System...
+[OK] Core systems initialized
+[OK] AI Assistant modules loaded
+[OK] Security protocols activated
+[OK] User interface initialized
+Dragon rullex ❌ Ambedkaro Ki Toli ✅
+
+Dragon Ambedkar Chudex Ke Piddi Nokro Ka Eklota Baap Villain"Rull3x
+
+Hello! I am Prem Rajveer, your AI assistant at Villian.
+Let me introduce our key features:
+
+1. Smart Shopping Experience
+   - Personalized product recommendations
+   - Real-time inventory tracking
+   - Advanced search capabilities
+
+2. Secure Account Management
+   - Two-factor authentication
+   - Encrypted data storage
+   - Secure payment processing
+
+3. 24/7 AI Support
+   - Instant query resolution
+   - Product guidance
+   - Technical assistance
+
+4. Admin Dashboard
+   - Real-time analytics
+   - Inventory management
+   - User activity monitoring
+
+[SYSTEM READY]
+Let's start your login to Villan Server...
+`;
+
+        function typeText(text, element, speed = 30) {
+            let i = 0;
+            let currentLine = '';
+            let currentParagraph = '';
+            
+            return new Promise(resolve => {
+                function speakLine(line) {
+                    if (line.trim() !== '') {
+                        const utterance = new SpeechSynthesisUtterance(line.replace(/[\[\]]/g, ''));
+                        utterance.rate = 0.9;
+                        utterance.pitch = 0.9;
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+
+                function type() {
+                    if (i < text.length) {
+                        const char = text.charAt(i);
+                        element.textContent += char;
+                        currentLine += char;
+                        currentParagraph += char;
+                        
+                        // When we hit a newline or reach the end
+                        if (char === '\n' || i === text.length - 1) {
+                            if (currentLine.trim().length > 0) {
+                                speakLine(currentLine.trim());
+                            }
+                            currentLine = '';
+                        }
+                        
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        setTimeout(() => {
+            const welcomeGif = document.querySelector('.welcome-gif');
+            const welcomeContainer = document.getElementById('welcomeGif');
+            const rebootScreen = document.getElementById('rebootScreen');
+            const typingText = document.getElementById('typingText');
+            const mainContent = document.getElementById('mainContent');
+            const loginContainer = document.getElementById('loginContainer');
+            
+            welcomeGif.classList.add('hide');
+            
+            setTimeout(async () => {
+                welcomeContainer.style.display = 'none';
+                rebootScreen.classList.add('show');
+                
+                // Fade out music gradually
+                const fadeOutMusic = setInterval(() => {
+                    if (bgMusic.volume > 0.02) {
+                        bgMusic.volume -= 0.02;
+                    } else {
+                        bgMusic.pause();
+                        clearInterval(fadeOutMusic);
+                    }
+                }, 100);
+
+                // Type out the reboot text
+                await typeText(rebootText, typingText);
+                
+                // Show login options after typing
+                setTimeout(() => {
+                    rebootScreen.classList.remove('show');
+                    mainContent.classList.add('show');
+                    loginContainer.classList.add('show');
+                    
+                    // Final message
+                    const finalMessage = new SpeechSynthesisUtterance("Please select your login type to begin.");
+                    finalMessage.rate = 0.9;
+                    finalMessage.pitch = 0.9;
+                    window.speechSynthesis.speak(finalMessage);
+                }, 2000);
+            }, 500);
+        }, 3000);
+
+        function userLogin() {
+            alert('Redirecting to User Login...');
+            // Add your user login logic here
+        }
+
+        function adminLogin() {
+            alert('Redirecting to Admin Login...');
+            // Add your admin login logic here
+        }
+    </script>
+</body>
+</html>
