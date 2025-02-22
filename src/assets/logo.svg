@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="80" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circuit Pattern -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
+    </linearGradient>
+    <clipPath id="circleClip">
+      <circle cx="40" cy="40" r="35" />
+    </clipPath>
+  </defs>
+  
+  <!-- AI Brain Circle -->
+  <circle cx="40" cy="40" r="35" fill="url(#logoGradient)" />
+  
+  <!-- Circuit Pattern -->
+  <g stroke="#ffffff" stroke-width="2" fill="none" clip-path="url(#circleClip)">
+    <path d="M20,40 L60,40 M40,20 L40,60" />
+    <path d="M25,25 L55,55 M55,25 L25,55" />
+    <circle cx="40" cy="40" r="15" />
+  </g>
+  
+  <!-- Sound Wave -->
+  <g transform="translate(85, 30)" fill="url(#logoGradient)">
+    <rect x="0" y="10" width="3" height="20" rx="1">
+      <animate attributeName="height" values="20;30;20" dur="1.5s" repeatCount="indefinite" />
+    </rect>
+    <rect x="6" y="5" width="3" height="30" rx="1">
+      <animate attributeName="height" values="30;40;30" dur="1.5s" repeatCount="indefinite" />
+    </rect>
+    <rect x="12" y="0" width="3" height="40" rx="1">
+      <animate attributeName="height" values="40;50;40" dur="1.5s" repeatCount="indefinite" />
+    </rect>
+  </g>
+  
+  <!-- Text -->
+  <text x="105" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2196F3">
+    AITZAZ
+  </text>
+  <text x="105" y="55" font-family="Arial, sans-serif" font-size="16" fill="#4CAF50">
+    STORE
+  </text>
+</svg>
